@@ -1,0 +1,26 @@
+#!/bin/bash
+cleanBuild() {
+	echo "Removendo arquivos compilados de 'static/'"
+	rm -rf static/*
+}
+
+case $1 in
+    build)
+        echo "Construindo aplicativo..."
+
+        export DEBUG_MODE=False
+
+        cleanBuild
+
+        echo "Coletando arquivos estáticos..."
+        python manage.py collectstatic -c --no-input
+
+    ;;
+    *)
+        echo "Iniciando Punch in the head"
+
+        cleanBuild
+
+        python manage.py runserver 0.0.0.0:1404
+    ;;
+esac

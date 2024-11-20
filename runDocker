@@ -1,0 +1,29 @@
+#!/bin/bash
+cleanBuild() {
+	echo "Removendo arquivos compilados de 'static/'"
+	rm -rf static/*
+}
+
+case $1 in
+    build)
+        echo "Construindo aplicativo..."
+
+        # Para comprimir os estáticos deve-se desabilitar o modo debug.
+        export DEBUG_MODE=False
+
+        cleanBuild
+
+        echo "Coletando arquivos estáticos..."
+        pipenv run python manage.py collectstatic -c --no-input
+
+    ;;
+    *)
+        echo "Iniciando Web Chat"
+        
+        export DJANGO_SETTINGS_MODULE=punchinthehead.settings.env
+
+        cleanBuild
+        
+        pipenv run runserver 0.0.0.0:1404
+    ;;
+esac
