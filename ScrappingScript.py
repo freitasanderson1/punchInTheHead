@@ -42,12 +42,12 @@ for letra in alfabeto:
           nome = soupAtleta.find("span", {"class":"b-content__title-highlight"}).text.strip()
           apelido = soupAtleta.find("p", {"class":"b-content__Nickname"}).text.strip()
           
-          stance = dictStance.get(soupAtleta.find("ul", {"class":"b-list__box-list"}).find_all("li")[-2].text.replace('STANCE:','').replace('--','').strip(), None)
+          stance = dictStance.get(soupAtleta.find("ul", {"class":"b-list__box-list"}).find_all("li")[-2].text.replace('STANCE:','').replace('--','').strip(), 1)
           dob = soupAtleta.find("ul", {"class":"b-list__box-list"}).find_all("li")[-1].text.replace('DOB:','').replace('--','').strip()
           
           date = datetime.strptime(dob, "%b %d, %Y").date() if dob else None
 
-          # print(f'{nome} {f'"{apelido}"' if apelido else ""} {date}')
+          print(f'{nome} {f'"{apelido}"' if apelido else ""} {date}')
 
           linkUFC = f'https://www.ufc.com.br/athletes/all?https%3A%2F%2Fwww.ufc.com.br%2Fathletes%2Fall=&gender=All&search={"%20".join(nome.split(" "))}'
           # print(f'Link UFC: {linkUFC}')
