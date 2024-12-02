@@ -1,0 +1,2 @@
+from punchinthehead.serializers.ImagensSerializer import ImagensSerializer
+from punchinthehead.serializers.AtletaSerializer import AtletaSerializer

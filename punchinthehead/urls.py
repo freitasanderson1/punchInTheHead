@@ -5,12 +5,13 @@ from django.conf.urls.static import static
 
 from rest_framework.routers import DefaultRouter
 
+from punchinthehead.views import AtletaViewset
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
 router = DefaultRouter(trailing_slash=False)
-# router.register(r'api/projetos',ProjetosApiView, basename='ProjetosApiView')
+router.register(r'api/atletas',AtletaViewset, basename='AtletaViewset')
 
 urlpatterns += router.urls
 
