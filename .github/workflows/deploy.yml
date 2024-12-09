@@ -1,0 +1,73 @@
+name: Deploy to Google Cloud VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Google Cloud credentials
+        run: |
+          echo "$GOOGLE_APPLICATION_CREDENTIALS_BASE64" | base64 --decode > /tmp/gcp_key.json
+          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp_key.json"
+
+      - name: Configure SSH key
+        run: |
+          echo "$GCP_SSH_KEY" > /tmp/gcp_ssh_key
+          chmod 600 /tmp/gcp_ssh_key
+
+      - name: Set environment variables in app.yaml and .env on VM
+        run: |
+          ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
+            cd /home/humildadevps/punchinthehead
+            git checkout .
+            git pull origin main -f
+            rm /home/humildadevps/punchinthehead/.env
+            echo "CONTAINER_BACKEND_NAME=${{ secrets.CONTAINER_BACKEND_NAME }}" >> /home/humildadevps/punchinthehead/.env
+            echo "CONTAINER_DB_NAME=${{ secrets.CONTAINER_DB_NAME }}" >> /home/humildadevps/punchinthehead/.env
+            echo "DEBUG=${{ secrets.DEBUG }}" >> /home/humildadevps/punchinthehead/.env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> /home/humildadevps/punchinthehead/.env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> /home/humildadevps/punchinthehead/.env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/humildadevps/punchinthehead/.env
+            echo "DB_HOST=${{ secrets.DB_HOST }}" >> /home/humildadevps/punchinthehead/.env
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> /home/humildadevps/punchinthehead/.env
+            docker compose up --build -d
+          EOF
+
+      - name: Deploy to Google Cloud VM
+        env:
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << EOF
+            cd /home/humildadevps/punchinthehead
+            rm -rf venv/
+            python -m venv venv
+            source venv/bin/activate
+            sleep 10
+            docker ps
+            pip install -r requirements.txt --no-cache
+            rm -rf punchinthehead/static/*
+            python manage.py collectstatic --noinput
+            sudo systemctl restart gunicorn
+          EOF
+
+      - name: Clean up SSH key and credentials
+        run: |
+          rm -f /tmp/gcp_ssh_key
+          rm -f /tmp/gcp_key.json
+        if: always()
+
+    env:
+      GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
+      GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
