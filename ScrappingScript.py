@@ -47,8 +47,6 @@ for letra in alfabeto:
           
           date = datetime.strptime(dob, "%b %d, %Y").date() if dob else None
 
-          print(f'{nome} {f'"{apelido}"' if apelido else ""} {date}')
-
           linkUFC = f'https://www.ufc.com.br/athletes/all?https%3A%2F%2Fwww.ufc.com.br%2Fathletes%2Fall=&gender=All&search={"%20".join(nome.split(" "))}'
           # print(f'Link UFC: {linkUFC}')
 
@@ -60,10 +58,12 @@ for letra in alfabeto:
             existeLutador = listaLutadores.find(string=re.compile(nome)) if listaLutadores else None
 
             if not existeLutador:
+              print(f'Não encontramos o(a) {nome} {f'"{apelido}"' if apelido else ""} {date}')
               continue
 
             cardFighter = existeLutador.parent.parent.parent.parent
             endpointPerfil = cardFighter.find("a", {"class":"e-button--black"}).get("href").split("/")[-1]
+            print(f'Endpoint: {endpointPerfil}')
             linkPerfilUFC = f'https://www.ufc.com.br/athlete/{endpointPerfil}'
 
             foto1 = cardFighter.find("img",{"class","image-style-teaser"})
@@ -108,6 +108,7 @@ for letra in alfabeto:
               existeAtleta = Atleta.objects.filter(codigo=idAtleta).exists()
 
               atleta = Atleta.objects.get(codigo=idAtleta) if existeAtleta else Atleta()
+              print(f'Já existe {nome} {f'"{apelido}"' if apelido else ""} {date}') if existeAtleta else None
 
               atleta.codigo = idAtleta
 
