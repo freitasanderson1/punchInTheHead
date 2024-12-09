@@ -38,6 +38,7 @@ jobs:
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/humildadevps/punchInTheHead/.env
             echo "DB_HOST=${{ secrets.DB_HOST }}" >> /home/humildadevps/punchInTheHead/.env
             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> /home/humildadevps/punchInTheHead/.env
+            echo "GCP_VM_IP=${{ secrets.GCP_VM_IP }}" >> /home/humildadevps/punchInTheHead/.env
             docker compose up --build -d
           EOF
 
