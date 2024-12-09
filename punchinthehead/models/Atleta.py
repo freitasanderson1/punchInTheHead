@@ -36,4 +36,5 @@ class Atleta(models.Model):
     ordering = ['modalidade','nome']
   
   def __str__(self):
-    return f'{self.nome} {f'"{self.apelido}"' if self.apelido else ""} {self.sobrenome}'
+    apelido = f'"{self.apelido}" ' if self.apelido else ""
+    return f'{self.nome} {apelido}{self.sobrenome}'
