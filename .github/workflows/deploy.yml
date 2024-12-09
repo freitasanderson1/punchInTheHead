@@ -26,18 +26,18 @@ jobs:
       - name: Set environment variables in app.yaml and .env on VM
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
-            cd /home/humildadevps/punchinthehead
+            cd /home/humildadevps/punchInTheHead
             git checkout .
             git pull origin main -f
-            rm /home/humildadevps/punchinthehead/.env
-            echo "CONTAINER_BACKEND_NAME=${{ secrets.CONTAINER_BACKEND_NAME }}" >> /home/humildadevps/punchinthehead/.env
-            echo "CONTAINER_DB_NAME=${{ secrets.CONTAINER_DB_NAME }}" >> /home/humildadevps/punchinthehead/.env
-            echo "DEBUG=${{ secrets.DEBUG }}" >> /home/humildadevps/punchinthehead/.env
-            echo "DB_NAME=${{ secrets.DB_NAME }}" >> /home/humildadevps/punchinthehead/.env
-            echo "DB_USER=${{ secrets.DB_USER }}" >> /home/humildadevps/punchinthehead/.env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/humildadevps/punchinthehead/.env
-            echo "DB_HOST=${{ secrets.DB_HOST }}" >> /home/humildadevps/punchinthehead/.env
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> /home/humildadevps/punchinthehead/.env
+            rm /home/humildadevps/punchInTheHead/.env
+            echo "CONTAINER_BACKEND_NAME=${{ secrets.CONTAINER_BACKEND_NAME }}" >> /home/humildadevps/punchInTheHead/.env
+            echo "CONTAINER_DB_NAME=${{ secrets.CONTAINER_DB_NAME }}" >> /home/humildadevps/punchInTheHead/.env
+            echo "DEBUG=${{ secrets.DEBUG }}" >> /home/humildadevps/punchInTheHead/.env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> /home/humildadevps/punchInTheHead/.env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> /home/humildadevps/punchInTheHead/.env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/humildadevps/punchInTheHead/.env
+            echo "DB_HOST=${{ secrets.DB_HOST }}" >> /home/humildadevps/punchInTheHead/.env
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> /home/humildadevps/punchInTheHead/.env
             docker compose up --build -d
           EOF
 
@@ -49,7 +49,7 @@ jobs:
           DB_HOST: ${{ secrets.DB_HOST }}
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << EOF
-            cd /home/humildadevps/punchinthehead
+            cd /home/humildadevps/punchInTheHead
             rm -rf venv/
             python -m venv venv
             source venv/bin/activate
