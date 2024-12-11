@@ -54,9 +54,8 @@ jobs:
               curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash;
               source ~/.bashrc;
             }
-            
-            cat ~/.bashrc
-            exec $SHELL
+
+            echo $SHELL
 
             command -v nvm || { echo "Falha ao instalar o NVM. Abortando."; exit 1; }
         
