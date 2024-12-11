@@ -49,9 +49,19 @@ jobs:
           chmod 600 /tmp/gcp_ssh_key
         
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
-            command -v nvm || { echo "NVM não encontrado. Abortando."; exit 1; }
+            command -v nvm || {
+              echo "NVM não encontrado. Instalando...";
+              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash;
+              source ~/.bashrc;
+            }
+            
+            command -v nvm || { echo "Falha ao instalar o NVM. Abortando."; exit 1; }
+        
             nvm install --lts
             nvm use --lts
+        
+            node -v
+            npm -v
         
             cd /home/humildadevps/punchInTheHead/frontend
             npm install
