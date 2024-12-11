@@ -43,11 +43,11 @@ jobs:
             docker compose up --build -d
           EOF
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22.x'  # Ou a versão que você precisar
-          cache: 'npm'
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '22.x'  # Ou a versão que você precisar
+      #     cache: 'npm'
       
       - name: Build do Frontend na VM do Google Cloud
         run: |
