@@ -58,10 +58,9 @@ jobs:
             sleep 5
             docker ps
             pip install -r requirements.txt --no-cache
-            rm -rf punchinthehead/backend/static/*
+            rm -rf home/humildadevps/punchInTheHead/backend/static/*
             python manage.py collectstatic --noinput
             sudo systemctl restart gunicorn
-            sudo systemctl restart nginx
           EOF
 
       - name: Build do Frontend na VM do Google Cloud
