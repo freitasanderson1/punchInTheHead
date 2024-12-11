@@ -44,23 +44,22 @@ jobs:
           EOF
       - name: Build do Frontend na VM do Google Cloud
         run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-
+          ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key ***@$GCP_VM_IP << 'EOF'
             source ~/.bashrc
-            source ~/.bash_profile
-
-            command -v nvm
+            
+            command -v nvm || { echo "NVM não encontrado. Abortando."; exit 1; }
 
             nvm install --lts
             nvm use --lts
+            
             node -v
             npm -v
 
-            cd /home/humildadevps/punchInTheHead/frontend
+            cd /home/***/punchInTheHead/frontend
             npm install
             npm run build --prod
           EOF
+
 
       - name: Deploy do Frontend na VM do Google Cloud
         run: |
