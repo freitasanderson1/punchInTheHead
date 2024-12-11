@@ -39,6 +39,7 @@ jobs:
             echo "DB_HOST=${{ secrets.DB_HOST }}" >> /home/humildadevps/punchInTheHead/backend/.env
             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> /home/humildadevps/punchInTheHead/backend/.env
             echo "GCP_VM_IP=${{ secrets.GCP_VM_IP }}" >> /home/humildadevps/punchInTheHead/backend/.env
+            cd /home/humildadevps/punchInTheHead/backend/
             docker compose up --build -d
           EOF
       - name: Build do Frontend na VM do Google Cloud
