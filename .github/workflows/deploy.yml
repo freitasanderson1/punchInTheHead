@@ -45,11 +45,17 @@ jobs:
       - name: Build do Frontend na VM do Google Cloud
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
+            source ~/.bashrc
+            
+            nvm install --lts
+            nvm use --lts
+            node -v
+            npm -v
+
             cd /home/humildadevps/punchInTheHead/frontend
             npm install
             npm run build --prod
           EOF
-      
 
       - name: Deploy do Frontend na VM do Google Cloud
         run: |
