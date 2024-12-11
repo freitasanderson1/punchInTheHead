@@ -15,7 +15,7 @@ DB_HOST = os.getenv('DB_HOST')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-ALLOWED_HOSTS = ['0.0.0.0', os.getenv('GCP_VM_IP'),'punchinthehead.freitascodes.me']
+ALLOWED_HOSTS = ['0.0.0.0', os.getenv('GCP_VM_IP'),'api.punchinthehead.freitascodes.me','punchinthehead.freitascodes.me']
 
 DATABASES = {
   'default': {

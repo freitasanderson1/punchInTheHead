@@ -26,7 +26,7 @@ jobs:
       - name: Definindo variáveis ​​de ambiente em app.yaml e .env na VM
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
-            cd /home/humildadevps/punchInTheHead/backend
+            cd /home/humildadevps/punchInTheHead/
             git checkout .
             git pull origin main -f
             rm /home/humildadevps/punchInTheHead/backend/.env
