@@ -77,7 +77,7 @@ jobs:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
           GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
       
-      - name: Add GCP VM ao known hosts
+      - name: Adicionar chave do host GCP ao known_hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H $GCP_VM_IP >> ~/.ssh/known_hosts
@@ -93,7 +93,6 @@ jobs:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
           GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
         
-
       - name: Limpando a chave e as credenciais SSH
         run: |
           rm -f /tmp/gcp_ssh_key

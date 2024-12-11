@@ -16,7 +16,7 @@ class Atleta(models.Model):
 
   nome = models.CharField('Nome do Atleta', max_length=255)
   sobrenome = models.CharField('Sobrenome do Atleta', max_length=255)
-  apelido = models.CharField('Sobrenome do Atleta', max_length=255, null=True, blank=True)
+  apelido = models.CharField('Apelido do Atleta', max_length=255, null=True, blank=True)
 
   altura = models.FloatField('Altura', null=True, blank=True)
   peso = models.FloatField('Peso', null=True, blank=True)
