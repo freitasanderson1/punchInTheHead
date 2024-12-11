@@ -43,28 +43,15 @@ jobs:
             docker compose up --build -d
           EOF
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x  # Use a versão necessária do Node.js
+          cache: 'npm'
+
       - name: Build do Frontend na VM do Google Cloud
         run: |
-          echo "$GCP_SSH_KEY" > /tmp/gcp_ssh_key
-          chmod 600 /tmp/gcp_ssh_key
-        
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
-            command -v nvm || {
-              echo "NVM não encontrado. Instalando...";
-              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash;
-              source ~/.bashrc;
-            }
-
-            echo $SHELL
-
-            command -v nvm || { echo "Falha ao instalar o NVM. Abortando."; exit 1; }
-        
-            nvm install --lts
-            nvm use --lts
-        
-            node -v
-            npm -v
-        
             cd /home/humildadevps/punchInTheHead/frontend
             npm install
             npm run build --prod
@@ -72,7 +59,6 @@ jobs:
         env:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
           GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
-        
         
       - name: Deploy do Frontend na VM do Google Cloud
         run: |
