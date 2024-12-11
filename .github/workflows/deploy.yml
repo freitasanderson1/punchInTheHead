@@ -63,6 +63,7 @@ jobs:
             sudo systemctl restart gunicorn
             sudo systemctl restart nginx
           EOF
+
       - name: Build do Frontend na VM do Google Cloud
         run: |
           echo "$GCP_SSH_KEY" > /tmp/gcp_ssh_key
@@ -70,9 +71,10 @@ jobs:
         
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
             cd /home/humildadevps/punchInTheHead/frontend
-            npm install
-            npm run build --prod
+            yarn install
+            yarn build --prod 
           EOF
+
         env:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
           GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
@@ -84,7 +86,7 @@ jobs:
             rm -rf dist/punchinthehead
             rsync -avz dist/punchinthehead/ humildadevps@$GCP_VM_IP:/var/www/punchinthehead/frontend
           EOF
-          
+
       - name: Limpando a chave e as credenciais SSH
         run: |
           rm -f /tmp/gcp_ssh_key
