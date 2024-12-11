@@ -42,6 +42,7 @@ jobs:
             cd /home/humildadevps/punchInTheHead/backend/
             docker compose up --build -d
           EOF
+
       - name: Build do Frontend na VM do Google Cloud
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key ***@$GCP_VM_IP << 'EOF'
@@ -59,7 +60,6 @@ jobs:
             npm install
             npm run build --prod
           EOF
-
 
       - name: Deploy do Frontend na VM do Google Cloud
         run: |
@@ -89,6 +89,7 @@ jobs:
             sudo systemctl restart gunicorn
             sudo systemctl restart nginx
           EOF
+          
       - name: Limpando a chave e as credenciais SSH
         run: |
           rm -f /tmp/gcp_ssh_key
