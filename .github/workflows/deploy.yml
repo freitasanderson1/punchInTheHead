@@ -55,6 +55,9 @@ jobs:
               source ~/.bashrc;
             }
             
+            cat ~/.bashrc
+            exec $SHELL
+
             command -v nvm || { echo "Falha ao instalar o NVM. Abortando."; exit 1; }
         
             nvm install --lts
