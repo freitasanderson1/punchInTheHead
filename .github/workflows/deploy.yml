@@ -46,7 +46,10 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
             source ~/.bashrc
-            
+            source ~/.bash_profile
+
+            command -v nvm
+
             nvm install --lts
             nvm use --lts
             node -v
