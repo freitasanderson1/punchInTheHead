@@ -45,6 +45,8 @@ jobs:
       - name: Build do Frontend na VM do Google Cloud
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+
             source ~/.bashrc
             source ~/.bash_profile
 
