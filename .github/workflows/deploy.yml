@@ -47,15 +47,12 @@ jobs:
         run: |
           echo "$GCP_SSH_KEY" > /tmp/gcp_ssh_key
           chmod 600 /tmp/gcp_ssh_key
-      
-          ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key ***@$GCP_VM_IP << 'EOF'
-            source ~/.bashrc
-      
+        
+          ssh -o StrictHostKeyChecking=no -i /tmp/gcp_ssh_key humildadevps@$GCP_VM_IP << 'EOF'
             command -v nvm || { echo "NVM não encontrado. Abortando."; exit 1; }
-      
             nvm install --lts
             nvm use --lts
-      
+        
             cd /home/humildadevps/punchInTheHead/frontend
             npm install
             npm run build --prod
@@ -63,6 +60,7 @@ jobs:
         env:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
           GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
+        
         
       - name: Deploy do Frontend na VM do Google Cloud
         run: |
