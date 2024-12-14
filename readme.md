@@ -2,6 +2,11 @@
 
 ### Backend
 - Django
+- PostgreSQL 
 
 ### Frontend
 - Angular
+
+### Deploy
+- Github Actions
+- Google Cloud Plataform
