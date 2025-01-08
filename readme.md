@@ -5,7 +5,7 @@
 - PostgreSQL 
 
 ### Frontend
-- Angular
+- React
 
 ### Deploy
 - Github Actions
